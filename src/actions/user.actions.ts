@@ -2,6 +2,7 @@ import { MuseumOwner } from "@/models/index";
 import { connectToDatabase } from "@/lib/db";
 
 // Create a new user in MongoDB
+// Update createUser function to ensure museumEmail and phoneNumber are provided
 export async function createUser(userData: {
     clerkId: string;
     email: string;
@@ -17,14 +18,18 @@ export async function createUser(userData: {
             throw new Error("User already exists in MongoDB.");
         }
 
+        // Assign default values or provide proper data for required fields
+        const museumEmail = userData.email; // Or a placeholder like `${userData.email}@museum.com`
+        const phoneNumber = "000-000-0000"; // Placeholder for now
+
         // Create a new user in the MuseumOwner model
         const newUser = new MuseumOwner({
             clerkId: userData.clerkId,
             personalEmail: userData.email,
-            museumEmail: "",
+            museumEmail: museumEmail,
             name: userData.fullName,
             avatar: userData.avatar,
-            phoneNumber: "",
+            phoneNumber: phoneNumber,
             museums: [], // This can be filled later during onboarding
         });
 
