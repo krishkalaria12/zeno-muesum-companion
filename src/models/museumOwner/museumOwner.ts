@@ -7,6 +7,7 @@ export interface IMuseumOwner extends Document {
   museumEmail: string;
   password: string;
   phoneNumber: string;
+  avatar: string;
   museums: mongoose.Types.ObjectId[];
 }
 
@@ -26,14 +27,14 @@ const MuseumOwnerSchema: Schema<IMuseumOwner> = new Schema(
       required: [true, 'Personal email is required'],
       unique: true,
     },
+    avatar: {
+      type: String,
+      required: false,
+    },
     museumEmail: {
       type: String,
       required: [true, 'Museum email is required'],
       unique: true,
-    },
-    password: {
-      type: String,
-      required: [true, 'Password is required'],
     },
     phoneNumber: {
       type: String,
