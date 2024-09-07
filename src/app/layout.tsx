@@ -3,11 +3,14 @@ import "@/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ViewTransitions } from "next-view-transitions";
 
 import { ThemeProvider } from "@/components/theme-provider";
+import { ProgressProviders } from "@/components/progress-bar";
+
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://zeno.vercel.app"),
+  metadataBase: new URL("https://zeno-muesum-companion.vercel.app"),
   title: {
     default: "Zeno - Your own mueusem companion",
     template: "%s | Zeno - Your own mueusem companion",
@@ -17,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     description: 'Zeno: Your intelligent museum companion. Skip queues, book tickets effortlessly, and enhance your cultural experience with our AI-powered chatbot. Multilingual support and seamless payments for a smoother museum visit.',
     images: ['https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png'],
-    url: 'https://zeno.vercel.app/'
+    url: 'https://zeno-muesum-companion.vercel.app/'
   },
   twitter: {
     card: 'summary_large_image',
@@ -35,18 +38,22 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${GeistSans.variable}`}>
-        <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </body>
-      </html>
+      <ViewTransitions>
+        <ProgressProviders>
+          <html lang="en" className={`${GeistSans.variable}`}>
+            <body>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                {children}
+              </ThemeProvider>
+            </body>
+          </html>
+        </ProgressProviders>
+      </ViewTransitions>
     </ClerkProvider>
   );
 }
