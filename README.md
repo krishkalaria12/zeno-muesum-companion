@@ -54,13 +54,18 @@ Create a `.env.local` file in the root directory and add the following environme
 
 ```bash
 MONGODB_URL="mongodb_url"
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="your_clerk_publishable_key"
-CLERK_SECRET_KEY="your_clerk_secret_key"
-WEBHOOK_SECRET="your_webhook_secret"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+WEBHOOK_SECRET=
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL=/dashboard
 NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL=/onboarding
+OPENAI_API_KEY=
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=
 ```
 
 ### 4. **Start the Development Server**
