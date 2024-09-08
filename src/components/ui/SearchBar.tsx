@@ -4,7 +4,7 @@ import { PlaceholdersAndVanishInput } from "../ui/placeholders-and-vanish-input"
 
 export function SearchBar() {
   interface Suggestion {
-    _id: string;git 
+    _id: string;
     name: string;
     location: string;
     description: string;

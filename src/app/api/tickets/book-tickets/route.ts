@@ -1,14 +1,13 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectToDatabase } from "@/lib/db";
-import { Booking, IBooking } from "@/models/index";
-import { Museum } from "@/models/index";
+import { Booking, IBooking, Museum } from "@/models/index";
 import { createError } from "@/utils/ApiError";
 import { createResponse } from "@/utils/ApiResponse";
 import { auth } from "@clerk/nextjs/server";
 import QRCode from "qrcode";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import fs from "fs";
+import fs from "fs/promises";
 import path from "path";
 
 // Check if museum exists
@@ -55,25 +54,30 @@ async function generateTicketPDF(ticketDetails: any, qrCode: string) {
 
   const pdfBytes = await pdfDoc.save();
   const pdfPath = path.join(process.cwd(), "public", `ticket-${ticketId}.pdf`);
-  fs.writeFileSync(pdfPath, pdfBytes);
+  await fs.writeFile(pdfPath, pdfBytes);
   return pdfPath;
 }
 
-export default async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(request: NextRequest) {
   await connectToDatabase();
 
   try {
-    const { has, sessionClaims } = auth();
-    const userId = sessionClaims?.mongoId;
+    const { userId } = auth();
 
-    if (!has || !userId) {
-      throw createError("Unauthorized", 401, false);
+    if (!userId) {
+      return NextResponse.json(
+        createError("Unauthorized", 401, false),
+        { status: 401 }
+      );
     }
 
-    const { museumId, attendees, sections } = req.body;
+    const { museumId, attendees, sections } = await request.json();
 
     if (!museumId || !mongoose.isValidObjectId(museumId)) {
-      throw createError("Invalid Museum ID", 400, false);
+      return NextResponse.json(
+        createError("Invalid Museum ID", 400, false),
+        { status: 400 }
+      );
     }
 
     const museum = await checkMuseumExists(museumId);
@@ -102,7 +106,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     const pdfPath = await generateTicketPDF(
       {
         museumName: museum.name,
-        user: { name: sessionClaims?.name },
+        user: { name: "User" }, // You might want to fetch the user's name from Clerk here
         sections,
         totalCost,
         ticketId: booking._id.toString(),
@@ -112,15 +116,22 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 
     const pdfDownloadLink = `https://zeno-muesum-companion.vercel.app/public/ticket-${booking._id.toString()}.pdf`;
 
-    res.setHeader("Content-Disposition", `attachment; filename=ticket-${booking._id.toString()}.pdf`);
-
-    return res.status(200).json(
+    return NextResponse.json(
       createResponse("Ticket booked successfully", 200, true, {
         bookingId: booking._id.toString(),
         pdfUrl: pdfDownloadLink,
-      })
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Disposition': `attachment; filename=ticket-${booking._id.toString()}.pdf`
+        }
+      }
     );
   } catch (error: any) {
-    return res.status(500).json(createError("Internal Server Error", 500, false, error?.message));
+    return NextResponse.json(
+      createError("Internal Server Error", 500, false, error?.message),
+      { status: 500 }
+    );
   }
 }

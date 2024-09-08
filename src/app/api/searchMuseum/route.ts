@@ -1,51 +1,63 @@
-import { connectToDatabase } from "@/lib/db";  // Ensure correct function name is used
-import { Museum } from "@/models/index";       // Correct import syntax
+import { NextRequest, NextResponse } from "next/server";
+import { connectToDatabase } from "@/lib/db";
+import { Museum } from "@/models/index";
 import { createError } from "@/utils/ApiError";
 import { createResponse } from "@/utils/ApiResponse";
-import { NextApiRequest, NextApiResponse } from "next";
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'GET') {
-    return res.status(405).json(createError("Method Not Allowed", 405, false));
-  }
-
+export async function GET(request: NextRequest) {
   await connectToDatabase();
 
   try {
-    const query = req.query.query as string;
+    const { searchParams } = new URL(request.url);
+    const query = searchParams.get('query');
+
+    if (!query) {
+      return NextResponse.json(
+        createError("Query parameter is required", 400, false),
+        { status: 400 }
+      );
+    }
 
     // Create the aggregation pipeline for searching museums
-    const pipeline: any[] = [];
-
-    pipeline.push({
-      $search: {
-        index: "museums",
-        text: {
-          query: query,
-          path: ["name"] // Searching by museum names
+    const pipeline: any[] = [
+      {
+        $search: {
+          index: "museums",
+          text: {
+            query: query,
+            path: ["name"] 
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          location: 1,
+          description: 1,
+          image: 1 // Adjust fields as necessary
         }
       }
-    });
-
-    pipeline.push({
-      $project: {
-        _id: 1,
-        name: 1,
-        location: 1,
-        description: 1,
-        image: 1 // Adjust fields as necessary
-      }
-    });
+    ];
 
     const museums = await Museum.aggregate(pipeline);
 
     if (museums.length === 0) {
-      return res.status(404).json(createResponse("No results found", 404, false, []));
+      return NextResponse.json(
+        createResponse("No results found", 404, false, []),
+        { status: 404 }
+      );
     }
 
-    return res.status(200).json(createResponse("Museums fetched successfully", 200, true, museums));
+    return NextResponse.json(
+      createResponse("Museums fetched successfully", 200, true, museums),
+      { status: 200 }
+    );
   } catch (error) {
     console.error(error);
-    return res.status(500).json(createError("Internal Server Error", 500, false, error));
+    return NextResponse.json(
+      createError("Internal Server Error", 500, false, error),
+      { status: 500 }
+    );
   }
 }

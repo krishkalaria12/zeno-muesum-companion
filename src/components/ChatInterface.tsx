@@ -31,7 +31,7 @@ export default function ChatInterface({ museumId, museumDetails }: ChatInterface
       <ScrollArea className="flex-grow p-4 border rounded-md">
         {messages.map((message) => (
           <div key={message.id} className={`mb-4 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
-            <span className="px-2 py-1 rounded-lg bg-gray-100 inline-block">
+            <span className="px-2 text-black py-1 rounded-lg bg-gray-100 inline-block">
               {message.content}
             </span>
           </div>

@@ -1,3 +1,4 @@
+export { Chat } from '@/models/chat/chat.schema';
 export { Museum } from '@/models/museum/museum.schema';
 export { Section } from '@/models/museum/section.schema';
 export { MuseumOwner } from '@/models/museumOwner/museumOwner.schema';

@@ -1,36 +1,51 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
 import { Booking } from "@/models/index";
 import { createError } from "@/utils/ApiError";
 import { createResponse } from "@/utils/ApiResponse";
 import mongoose from "mongoose";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(request: NextRequest, { params }: { params: { ticketId: string } }) {
     await connectToDatabase();
 
     try {
-        const { ticketId } = req.query;
+        const { ticketId } = params;
 
         if (!ticketId || !mongoose.isValidObjectId(ticketId)) {
-        throw createError("Invalid Ticket ID", 400, false);
+            return NextResponse.json(
+                createError("Invalid Ticket ID", 400, false),
+                { status: 400 }
+            );
         }
 
         const booking = await Booking.findById(ticketId);
 
         if (!booking) {
-            throw createError("Ticket not found", 404, false);
+            return NextResponse.json(
+                createError("Ticket not found", 404, false),
+                { status: 404 }
+            );
         }
 
         // Check if the ticket is still valid
         if (new Date() > booking.validity) {
-        booking.status = "expired";
-        await booking.save();
-        return res.status(400).json(createError("Ticket has expired", 400, false));
+            booking.status = "expired";
+            await booking.save();
+            return NextResponse.json(
+                createError("Ticket has expired", 400, false),
+                { status: 400 }
+            );
         }
 
-        return res.status(200).json(createResponse("Ticket is valid", 200, true, { booking }));
+        return NextResponse.json(
+            createResponse("Ticket is valid", 200, true, { booking }),
+            { status: 200 }
+        );
     } catch (error: any) {
         console.error("Error verifying ticket:", error);
-        return res.status(500).json(createError("Internal Server Error", 500, false, error.message));
+        return NextResponse.json(
+            createError("Internal Server Error", 500, false, error.message),
+            { status: 500 }
+        );
     }
 }
