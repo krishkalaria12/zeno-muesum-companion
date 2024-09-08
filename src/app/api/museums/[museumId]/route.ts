@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectToDatabase } from "@/lib/db";  
-import { Museum } from "@/models/museum/museum";   
+import { Museum } from "@/models/index";   
 import { auth } from "@clerk/nextjs/server";     
 import mongoose from "mongoose";
 import { createError } from "@/utils/ApiError";    

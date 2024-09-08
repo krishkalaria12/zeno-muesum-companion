@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
-import { ISection } from './section';
+import { ISection } from './section.schema';
 
 export interface ITiming extends Document {
   from: string; // Time in HH:MM format

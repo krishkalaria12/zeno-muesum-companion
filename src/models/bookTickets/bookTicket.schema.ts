@@ -16,6 +16,7 @@ interface ISectionDetail extends Document {
 
 // Main Ticket Booking schema interface
 export interface IBooking extends Document {
+  _id: string;
   museum: mongoose.Types.ObjectId;              // Reference to the Museum collection
   user: mongoose.Types.ObjectId;                // Reference to the user who made the booking
   attendees: IAttendee[];                       // List of attendees (name and age group)

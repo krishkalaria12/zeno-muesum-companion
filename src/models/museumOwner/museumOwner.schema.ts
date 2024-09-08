@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IMuseumOwner extends Document {
-  clerkId: string; // Clerk authentication ID
+  clerkId: string; 
   name: string;
   personalEmail: string;
   museumEmail: string;
@@ -9,6 +9,7 @@ export interface IMuseumOwner extends Document {
   phoneNumber: string;
   avatar: string;
   museums: mongoose.Types.ObjectId[];
+  credits: number;
 }
 
 const MuseumOwnerSchema: Schema<IMuseumOwner> = new Schema(
@@ -41,6 +42,11 @@ const MuseumOwnerSchema: Schema<IMuseumOwner> = new Schema(
       required: [true, 'Phone number is required'],
     },
     museums: [{ type: Schema.Types.ObjectId, ref: 'Museum' }],
+    credits: {
+      type: Number,
+      default: 1000, // Starting credits
+      required: true,
+    },
   },
   { timestamps: true }
 );
