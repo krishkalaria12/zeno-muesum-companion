@@ -5,5 +5,5 @@ export { Subscription } from '@/models/subscription/subscription.schema';
 export { Payment } from '@/models/payment/payment.schema';
 export { Booking } from './bookTickets/bookTicket.schema';
 
-// types 
+// Types
 export type { IBooking } from './bookTickets/bookTicket.schema';
