@@ -1,8 +1,8 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-import { ISection } from "@/models/museum/section";  // Import the Section model
+import { ISection } from "@/models/index";  // Import the Section model
 
 // Define attendee details for each person booking the ticket
-interface IAttendee extends Document {
+export interface IAttendee extends Document {
   name: string;          // Name of the person
   ageGroup: "child" | "adult" | "senior";  // Age group of the person
 }
