@@ -15,11 +15,11 @@ export async function connectToDatabase(): Promise<void> {
     try {
         const db = await mongoose.connect(process.env.MONGODB_URL || "");
 
-        connection.isConnected = db.connections[0]?.readyState || 0; 
+        connection.isConnected = db.connections[0]?.readyState || 0;
 
         console.log("Database connected successfully.");
     } catch (error) {
         console.error("Database connection failed:", error);
-        process.exit(1); 
+        process.exit(1);
     }
 }
