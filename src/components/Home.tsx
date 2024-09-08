@@ -1,6 +1,6 @@
 "use client";
 import { useState, FormEvent, ChangeEvent, useEffect } from "react";
-import Link from "next/link";
+import { Link } from 'next-view-transitions';
 import { Input } from "@/components/ui/input";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -30,7 +30,7 @@ export function Home() {
             About Us
           </Link>
           <Link
-            href="#"
+            href="/sign-in"
             className="inline-flex h-9 items-center justify-center rounded-md bg-primary-foreground px-4 py-2 text-sm font-medium text-primary shadow transition-colors hover:bg-primary-foreground/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
             prefetch={false}
           >
