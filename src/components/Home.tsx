@@ -45,7 +45,7 @@ export function Home() {
               Streamline Your Museum Ticketing with Ease
             </h1>
             <p className="text-lg leading-relaxed">
-              Ticket Maestro offers a comprehensive ticketing solution for museums, galleries, and cultural institutions. Our platform simplifies the ticketing process, enhances the visitor experience, and empowers your team to focus on what matters most.
+              Zeno offers a comprehensive ticketing solution for museums, galleries, and cultural institutions. Our platform simplifies the ticketing process, enhances the visitor experience, and empowers your team to focus on what matters most.
             </p>
           </div>
           <SearchBar />
@@ -65,7 +65,7 @@ export function Home() {
                       style={{ aspectRatio: "1" }} // Aspect ratio as 1 for square
                     />
                     <blockquote className="text-center text-lg leading-relaxed text-card-foreground">
-                      &rdquo;Ticket Maestro has been a game-changer for our museum. The intuitive platform and excellent customer support have made our ticketing process a breeze.&rdquo;
+                      &rdquo;Zeno has been a game-changer for our museum. The intuitive platform and excellent customer support have made our ticketing process a breeze.&rdquo;
                     </blockquote>
                     <div className="font-medium text-card-foreground">Jane Doe, Curator</div>
                     <div className="text-card-foreground text-sm">Metropolitan Museum of Art</div>
@@ -82,7 +82,7 @@ export function Home() {
                       style={{ aspectRatio: "1" }} // Aspect ratio as 1 for square
                     />
                     <blockquote className="text-center text-lg leading-relaxed text-card-foreground">
-                    &rdquo;Ticket Maestro has been a game-changer for our museum. The intuitive platform and excellent customer support have made our ticketing process a breeze.&rdquo;
+                    &rdquo;Zeno has been a game-changer for our museum. The intuitive platform and excellent customer support have made our ticketing process a breeze.&rdquo;
                     </blockquote>
                     <div className="font-medium text-card-foreground">John Smith, Director</div>
                     <div className="text-card-foreground text-sm">Louvre Museum</div>
@@ -99,7 +99,7 @@ export function Home() {
                       style={{ aspectRatio: "1" }} // Aspect ratio as 1 for square
                     />
                     <blockquote className="text-center text-lg leading-relaxed text-card-foreground">
-                    &rdquo;Ticket Maestro has been a game-changer for our museum. The intuitive platform and excellent customer support have made our ticketing process a breeze.&rdquo;
+                    &rdquo;Zeno has been a game-changer for our museum. The intuitive platform and excellent customer support have made our ticketing process a breeze.&rdquo;
                     </blockquote>
                     <div className="font-medium text-card-foreground">Jane Doe, Curator</div>
                     <div className="text-card-foreground text-sm">Metropolitan Museum of Art</div>
@@ -171,7 +171,7 @@ export function Home() {
         </section>
       </main>
       <footer className="bg-primary text-primary-foreground py-4 px-6 text-center">
-        <p className="text-sm">© {currentYear} Ticket Maestro. All rights reserved.</p>
+        <p className="text-sm">© {currentYear} Zeno. All rights reserved.</p>
       </footer>
     </div>
   );
